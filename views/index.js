@@ -47,6 +47,7 @@ const host = "http://localhost:3000/";
 
 const uploadURL = `${host}api/filters`;
 const emailURL = `${host}api/files`;
+//  upload url mein badlav aayega
 
 dropZone.addEventListener("dragleave", (event) => {
   dropZone.classList.remove("dragged");
@@ -55,6 +56,7 @@ dropZone.addEventListener("drop", (e) => {
   e.preventDefault();
   dropZone.classList.remove("dragged");
   const files = e.dataTransfer.files;
+  //  this `e` contains the file object which I have left
   console.log(files);
   if (files.length) {
     fileInput.files = files;
@@ -79,22 +81,24 @@ const uploaadFiles = () => {
     return;
   }
   const file = fileInput.files[0];
+  //  fileInput.files = e.dataTransfer.files
 
   if (file.size > maxAllowedSize) {
     fileInput.value = "";
+    //  it is simply an input field
     showToast("Can't upload more than 100mb");
     return;
   }
 
   progressContainer.style.display = "block";
-
   console.log("ffff", fileInput.files);
-
   const formData = new FormData();
+  // it makes a form object and I will upload via post method
   formData.append("myfile", file);
   const xhr = new XMLHttpRequest();
   xhr.onreadystatechange = () => {
     console.log(xhr.readyState);
+    //  the state not just simply changes, it changes depeding on the value of readyState
     if (xhr.readyState === XMLHttpRequest.DONE) {
       // console.log(xhr.readyState);
       //  showLink is called when the file is completely loaded
@@ -110,15 +114,22 @@ const uploaadFiles = () => {
     showToast(`Error in upload ${xhr.statusText}`);
   };
   xhr.open("POST", uploadURL);
+  //  the url is open and I will send the data there
   xhr.send(formData);
 };
 const updateProgress = (e) => {
-  const percent = Math.round(e.loaded / e.total) * 100;
-  console.log(percent);
-  console.log(e);
+  // console.log(e);
+  const percent = Math.round((e.loaded / e.total) * 100);
+  if (percent < 100) {
+    console.log("hi");
+  }
+  // window.alert(percent);
+  console.log(percent + "----------------------------" + e);
+  // console.log(e);
   bgProgress.style.width = `${percent}%`;
-  percentDiv.innerText = percent;
+  percentDiv.innerText = -percent;
   progressBar.style.transform = `scaleX(${percent / 100})`;
+
   console.log(progressBar);
 };
 
@@ -133,7 +144,7 @@ const showLink = (data) => {
   console.log(content.file);
   fileURL.value = content.file;
   sharingContainer.style.display = "block";
-  progressContainer.style.display = "none";
+  // progressContainer.style.display = "none";
 };
 
 emailForm.addEventListener("submit", (e) => {
