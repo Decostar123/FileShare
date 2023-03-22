@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const dotenv = require("dotenv");
+dotenv.config();
 // const path = r
 app.get("/", (req, res) => {
   //   console.log("hi");
@@ -42,7 +44,11 @@ app.use(express.json());
 //   console.log("hi");
 // });
 
-// Routes
-app.use("/api/files", require("./routes/files"));
+// Routes  ,   REQUIREING THE ROUTES ISS LIKE ONWE WAY OF IPORTING THEM ONLY
 app.use("/files", require("./routes/show"));
+//  this will take me to downloads
+app.use("/api/files", require("./routes/files"));
+// this will help to save in multer
+app.use("/files/download", require("./routes/download"));
+// this will help me in downloads
 app.listen(PORT, () => console.log("Server started on port 3000 "));

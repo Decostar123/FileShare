@@ -11,6 +11,8 @@ const fileURL = document.querySelector("#fileURL");
 const copyBtn = document.querySelector("#copy-btn");
 const btnSubmit = document.querySelector("#btnSubmit");
 const toast = document.querySelector(".toast");
+// const dotenv = require("dotenv");
+// dotenv.config();
 const maxAllowedSize = 100 * 1024 * 1024; //100mb
 console.log(btnSubmit);
 console.log(copyBtn);
@@ -45,8 +47,11 @@ dropZone.addEventListener("dragover", (event) => {
 });
 const host = "http://localhost:3000/";
 
-const uploadURL = `${host}api/filters`;
-const emailURL = `${host}api/files`;
+// const uploadURL = `${process.env.APP_BASE_URL}api/files`;
+// const emailURL = `${process.env.APP_BASE_URL}api/files/send`;
+
+const uploadURL = `${host}api/files`;
+const emailURL = `${host}api/files/send`;
 //  upload url mein badlav aayega
 
 dropZone.addEventListener("dragleave", (event) => {
@@ -57,7 +62,7 @@ dropZone.addEventListener("drop", (e) => {
   dropZone.classList.remove("dragged");
   const files = e.dataTransfer.files;
   //  this `e` contains the file object which I have left
-  console.log(files);
+  console.log("zzzzzzzzzzzzzzzzzz", files);
   if (files.length) {
     fileInput.files = files;
     uploaadFiles();
@@ -75,6 +80,9 @@ browseBtn.addEventListener("click", (event) => {
 
 const uploaadFiles = () => {
   // it is simply I am sending data via post method
+
+  console.log("--------||||||", fileInput);
+  console.log(Array.isArray(fileInput.files));
   if (fileInput.files.length > 1) {
     fileInput.value = "";
     showToast("Only upload 1 file");
@@ -91,10 +99,11 @@ const uploaadFiles = () => {
   }
 
   progressContainer.style.display = "block";
-  console.log("ffff", fileInput.files);
+  console.log("ffff", file);
   const formData = new FormData();
   // it makes a form object and I will upload via post method
-  formData.append("myfile", file);
+  formData.append("myFile", file);
+  console.log("FD", formData);
   const xhr = new XMLHttpRequest();
   xhr.onreadystatechange = () => {
     console.log(xhr.readyState);
@@ -115,6 +124,7 @@ const uploaadFiles = () => {
   };
   xhr.open("POST", uploadURL);
   //  the url is open and I will send the data there
+  console.log(uploadURL);
   xhr.send(formData);
 };
 const updateProgress = (e) => {
@@ -127,7 +137,7 @@ const updateProgress = (e) => {
   console.log(percent + "----------------------------" + e);
   // console.log(e);
   bgProgress.style.width = `${percent}%`;
-  percentDiv.innerText = -percent;
+  percentDiv.innerText = percent;
   progressBar.style.transform = `scaleX(${percent / 100})`;
 
   console.log(progressBar);
@@ -135,6 +145,7 @@ const updateProgress = (e) => {
 
 // showLink -> onUploadSuccess
 const showLink = (data) => {
+  console.log("LLIINNK", data);
   const content = JSON.parse(data);
   fileInput.value = "";
 
@@ -175,9 +186,9 @@ emailForm.addEventListener("submit", (e) => {
   })
     .then((res) => res.json())
     .then(({ success }) => {
-      // if (success) {
-      showToast("Email Sent");
-      // }
+      if (success) {
+        showToast("Email Sent");
+      }
     });
 });
 let toastTimer;
