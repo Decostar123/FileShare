@@ -70,6 +70,7 @@ dropZone.addEventListener("drop", (e) => {
 });
 
 fileInput.addEventListener("change", () => {
+  console.log("ch");
   uploaadFiles();
 });
 
@@ -117,7 +118,18 @@ const uploaadFiles = () => {
     }
   };
   console.log("formDaat", file);
-  xhr.upload.onprogress = updateProgress;
+  console.log("fo-----", formData);
+  // xhr.upload.onprogress = updateProgress;
+  // xhr.upload.onprogress = (e) => {
+  //   console.log("eeee----", e);
+  //   updateProgress(e);
+  // };
+  // xhr.addEventListener("progress", updateProgress);
+  xhr.upload.addEventListener("progress", (e) => {
+    console.log("up ch");
+    updateProgress(e);
+  });
+
   xhr.upload.onerror = () => {
     fileInput.value = "";
     showToast(`Error in upload ${xhr.statusText}`);

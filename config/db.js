@@ -5,7 +5,7 @@ function connectDB() {
   mongoose
     .connect(process.env.MONGO_CONNECTION_URL)
     .then((resp) => console.log(" connections successful"))
-    .catch((err) => console.log("connection failed "));
+    .catch((err) => console.log("connection failed ", err));
   //   console.log(process.env.MONGO_CONNECTION_URL);
   //   const connection = mongoose.connection;
   //   connection

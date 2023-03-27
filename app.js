@@ -1,6 +1,11 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
+const file = require("./models/file");
+// file
+//   .deleteMany({})
+//   .then(() => console.log("all deleted "))
+//   .catch((err) => console.log("err"));
 dotenv.config();
 // const path = r
 app.get("/", (req, res) => {
@@ -13,6 +18,11 @@ app.use(express.static("views"));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 // app.set("views", path.join(__dirname, "/views"));
+
+let i = 1;
+// setInterval(() => {
+//   console.log(" delay of 3sec", i++);
+// }, 3000);
 const bodyParser = require("body-parser");
 app.use(
   bodyParser.urlencoded({
