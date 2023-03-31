@@ -8,6 +8,8 @@ const encrypt = require("../node-encryption/encrypt");
 // const decrypt = require("../node-encryption/decrypt");
 const { v4: uuid4 } = require("uuid");
 
+let identity = "";
+
 let uniqueName = "";
 // const {
 //   scryptSync,
@@ -89,12 +91,16 @@ router.post("/", (req, res) => {
       // console.log(srcPath, destPath);
       // const done = encrypt(srcPath, destPath, algorithm, key, iv);
       // if (done) decrypt(destPath, DestPath, algorithm, key, iv);
-      const file = "uploads/" + uniqueName + ".pdf";
+      const extension = req.file.filename.split(".")[1];
+
+      const file = "uploads/" + uniqueName + "." + extension;
       console.log(file);
-      encrypt({ file, password, uniqueName });
+      encrypt({ file, password, uniqueName, extension });
+      identity = uuid4();
+      console.log("-----", identity);
       const files = new File({
         filename: req.file.filename,
-        uuid: uuid4(),
+        uuid: identity,
         path: req.file.path,
         size: req.file.size,
         uniquename: uniqueName,
@@ -103,7 +109,7 @@ router.post("/", (req, res) => {
 
       console.log(" I hae successfully sved the file ");
       return res.json({
-        file: `${process.env.APP_BASE_URL}/files/${response.uuid}`,
+        file: `${process.env.APP_BASE_URL}/files/${response.filename}`,
         // http://localhost:3000/files/uuid
       });
     }
@@ -111,6 +117,35 @@ router.post("/", (req, res) => {
 
   // response will have download link
 });
+
+router.post("/setPassword", async (req, res) => {
+  console.log(req.body);
+  // console.log(File.find({}));
+  // console.log("11111", identity);
+  const entry = await File.findOneAndUpdate(
+    { uuid: identity },
+    { password: req.body.password }
+  );
+  // entry = await File.findOne({ uuid: identity });
+  // console.log(entry);
+  console.log(identity);
+  // console.log("111111", entry.filename);
+  // console.log("2222", entry.path);
+  if (!entry) {
+    res.json({ msg: "Some Error Occurred " });
+  } else {
+    // console.log("entry", entry);
+    // entry.password = req.body.password;
+    // console.log(req.body.password, identity);
+    // alert(entry);
+    // console.log(entry);
+    // console.log(entry.password);
+    // console.log(entry);
+    res.json({ msg: "Password Applied " });
+  }
+});
+
+// router.post("");
 
 // const encrypt = (filePath, output, algorithm, key, iv) => {
 //   const fileStream = fs.createReadStream(filePath);
@@ -152,12 +187,16 @@ router.post("/", (req, res) => {
 
 router.post("/send", async (req, res) => {
   //  Validate request
-  const { uuid, emailTo, emailFrom } = req.body;
+  const { uuid, emailTo, emailFrom, emailPassword } = req.body;
   if (!uuid || !emailTo || !emailFrom) {
     return res.status(422).send({ error: "All fields are required" });
   }
+  console.log("server side ", uuid);
   // Get data from database
-  const file = await File.findOne({ uuid: uuid });
+
+  const file = await File.findOne({ filename: uuid });
+  //  note about the FILENAME while searching
+
   // if senfer exist than it means that it alreay has been sent
 
   if (file.sender) {
@@ -175,12 +214,13 @@ router.post("/send", async (req, res) => {
     from: emailFrom,
     to: emailTo,
     subject: "Easy File Sharing ",
-    text: `${emailFrom} shared a file with you `,
+    text: `${emailFrom} shared a file with you <br> The password of the file is ${emailPassword}`,
     html: require("../services/emailTemplate")({
       emailFrom: emailFrom,
-      downloadLink: `${process.env.APP_BASE_URL}/files/${file.uuid}`,
+      downloadLink: `${process.env.APP_BASE_URL}/files/${file.filename}`,
       size: parseInt(file.size / 1000) + "KB",
       expires: "24 hours",
+      emailPassword: emailPassword,
     }),
   });
   return res.send({ success: true });

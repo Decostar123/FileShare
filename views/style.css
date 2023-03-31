@@ -12,7 +12,7 @@ body, html{
     padding : 0; 
     margin : 0 ; 
     box-sizing: border-box;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 body , .drop-zone , .upload-container{
     display : flex ; 
@@ -188,6 +188,22 @@ p{
     margin-bottom: 5px;
     width : 400px ;
 }
+
+/* .email-container .pswd{ */
+    /* display : none ; */
+    /* visibility: hidden ;
+    display : flex ; 
+    justify-content: space-between;
+    margin-bottom: 5px;
+    width : 400px ;
+    
+} */
+.apply{
+    display : flex ; 
+    justify-content: center ;
+    margin : 15px ; 
+}
+
 .email-container label{
     font-size: 18px ;
 }
@@ -236,6 +252,10 @@ p{
     height:50vh ; 
     width : 50vw ; 
 }
+.password{
+    margin : 15px ; 
+    display : none ; 
+}
 
 @media screen and (max-width:900px){
     :root{
@@ -244,8 +264,17 @@ p{
     .upload{
         display:none ; 
     }
-    .email-container .filed{
+    .email-container .filed  {
         flex-direction: column;
         width: 300px ; 
     }
+    .email-container .pswd  {
+        flex-direction: column;
+        width: 300px ; 
+    }
+}
+
+.pswd{
+    /* visibility : hidden ; */
+    display : none ;  
 }

@@ -11,8 +11,37 @@ const fileURL = document.querySelector("#fileURL");
 const copyBtn = document.querySelector("#copy-btn");
 const btnSubmit = document.querySelector("#btnSubmit");
 const toast = document.querySelector(".toast");
+const checkbox = document.querySelector("#check");
+const pswd = document.querySelector(".pswd");
+// const pswd = document.querySelector(".pswd");
+const pswdInput = document.querySelector("#passwordInput");
+const password = document.querySelector("#password");
+pswdInput.style.display = "none";
 // const dotenv = require("dotenv");
 // dotenv.config();
+
+// checkbox.onchange = () => {
+//   if (checkbox.checked) {
+//     console.log(" got checked ");
+//     pswd.style.visibility = "visible";
+//   } else {
+//     console.log(" not checked ");
+//     pswd.style.visibility = "hidden";
+//   }
+// };
+
+checkbox.onchange = () => {
+  if (checkbox.checked) {
+    pswdInput.style.display = "flex";
+    console.log(" got checked ");
+    pswd.style.display = "block";
+  } else {
+    pswdInput.style.display = "none";
+    console.log(" not checked ");
+    pswd.style.display = "none";
+  }
+};
+
 const maxAllowedSize = 100 * 1024 * 1024; //100mb
 console.log(btnSubmit);
 console.log(copyBtn);
@@ -31,6 +60,7 @@ console.log(copyBtn);
 //   btnSubmit.style.border = "4px solid rgb(162, 162, 245)";
 // }
 const emailForm = document.querySelector("#emailForm");
+const passwordForm = document.querySelector("#passwordForm");
 
 copyBtn.addEventListener("click", () => {
   console.log("clipboard", fileURL.innerText);
@@ -52,6 +82,7 @@ const host = "http://localhost:3000/";
 
 const uploadURL = `${host}api/files`;
 const emailURL = `${host}api/files/send`;
+const passwordURL = `${host}api/files/setPassword`;
 //  upload url mein badlav aayega
 
 dropZone.addEventListener("dragleave", (event) => {
@@ -170,6 +201,24 @@ const showLink = (data) => {
   // progressContainer.style.display = "none";
 };
 
+passwordForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  console.log("client", password.value);
+  const data = {
+    password: password.value,
+  };
+  fetch(passwordURL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.json())
+    .then(({ msg }) => showToast(msg));
+});
+
 emailForm.addEventListener("submit", (e) => {
   e.preventDefault();
   console.log(e);
@@ -178,9 +227,13 @@ emailForm.addEventListener("submit", (e) => {
   console.log(emailForm.elements["to-email"]);
   const formData = {
     uuid: url.split("/").splice(-1, 1)[0],
+    // uuid : url,
     emailTo: emailForm.elements["to-email"].value,
     emailFrom: emailForm.elements["from-email"].value,
+    emailPassword: emailForm.elements["set-password"].value,
   };
+  console.log("aaaaaa  ", url.split("/").splice(-1, 1)[0]);
+  // alert(formData);
 
   emailForm[2].setAttribute("disabled", "true");
   btnSubmit.style.border = "2px solid #ffcccb";

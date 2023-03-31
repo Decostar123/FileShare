@@ -48,10 +48,46 @@
                         <label for="receiver">Receiver's Email </label>
                         <input type="email" required name="to-email" id="receiver">
                     </div>
+                    <div class="filed" id="passwordInput">
+                        <label for="receiver">Password </label>
+                        <input type="text" name="set-password" id="setPassword" value="">
+                    </div>
+                    <!-- <button type="submit" id="btnSubmit">Send</button> -->
                     <button type="submit" id="btnSubmit">Send</button>
                 </form>
 
             </div>
+            <div class="protect">
+                <div class="apply">
+                    <!-- <input type="checkbox" id="check" onchange="checked()"> -->
+                    <input type="checkbox" id="check">
+                    <label for="check">Want to apply Password </label>
+                </div>
+                <div class="pswd">
+
+                    <!-- -----------------------------------------------------  -->
+                    <div class="email-container">
+                        <form id="passwordForm" action="">
+                            <div class="filed">
+                                <label for="password">Your Password </label>
+                                <input required name="password" id="password" value="">
+                            </div>
+                            <button type="submit" id="passwordSubmit">Apply</button>
+                        </form>
+
+                    </div>
+
+                    <!-- ----------------------------------------------------------------------  -->
+                </div>
+
+
+
+                <!-- <button type="submit" id="btnSubmit">Send</button> -->
+            </div>
+
+
+
+
         </div>
 
 

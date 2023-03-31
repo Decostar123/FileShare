@@ -12,8 +12,11 @@ const fileSchema = new Schema(
     sender: { type: String, required: false },
     receiver: { type: String, required: false },
     uniquename: { type: String, required: false },
+    password: { type: String, required: false, default: "" },
+    // createdAt: new Date(),
   },
   { timestamps: true }
 );
+// fileSchema.index({ createdAt: 1 }, { expireAfterSeconds: 10 });
 
 module.exports = mongoose.model("File", fileSchema);

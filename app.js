@@ -2,6 +2,10 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
 const file = require("./models/file");
+// file.createIndexes({ createdAt: 1 }, { expireAfterSeconds: 86400 });
+// file.dropIndexes({ createdAt: 1 });
+// file.collection.dropIndexes();
+// console.log(file.getIndexes());
 // file
 //   .deleteMany({})
 //   .then(() => console.log("all deleted "))
@@ -17,6 +21,7 @@ let ind = 0;
 app.use(express.static("views"));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
+const cors = require("cors");
 // app.set("views", path.join(__dirname, "/views"));
 
 let i = 1;
@@ -32,6 +37,9 @@ app.use(
 const PORT = process.env.PORT || 3000;
 
 const connectDB = require("./config/db");
+const corsOptions = {
+  origin: process.env.ALLOWED_CLIENTS.split(","),
+};
 connectDB();
 
 // app.post("/login", (res, res) => {
@@ -39,6 +47,7 @@ connectDB();
 // });
 // app.use(cors());
 app.use(express.json());
+app.use(cors(corsOptions));
 
 // app.post("/api/filters", (req, res) => {
 //   console.log(req.body);

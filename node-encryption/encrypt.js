@@ -7,7 +7,7 @@ const AppendInitVect = require("./appendInitVect");
 const { ALGORITHM, ENCRYPED_EXT } = require("./constants");
 const { getCipherKey } = require("./util");
 
-async function encrypt({ file, password, uniqueName }) {
+async function encrypt({ file, password, uniqueName , extension}) {
   // Generate a secure, pseudo random initilization vector.
   const initVect = crypto.randomBytes(16);
 
@@ -21,10 +21,10 @@ async function encrypt({ file, password, uniqueName }) {
   // const writeStream = fs.createWriteStream(path.join(file + ENCRYPED_EXT));
   // const writeStream = fs.createWriteStream(output) ;
   const writeStream = fs.createWriteStream(
-    path.join(`uploads/enc${uniqueName}.pdf`)
+    path.join(`uploads/enc${uniqueName}.${extension}`)
   );
   writeStream.on("close", () => {
-    fs.unlinkSync(`uploads/${uniqueName}.pdf`);
+    fs.unlinkSync(`uploads/${uniqueName}.${extension}`);
 
     console.log("Encryption success!");
   });
