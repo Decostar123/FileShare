@@ -31,8 +31,28 @@ router.get("/:uuid", async (req, res) => {
     }
   } catch (err) {
     const file_path = `uploads/enc${name}`;
+    console.log("file_path", file_path);
     fs.unlinkSync(file_path);
     return res.render("download", { error: "Something went wrong" });
+  }
+});
+router.post("/verifyPassword", async (req, res) => {
+  console.log(req.body);
+  try {
+    const { fileName, password } = req.body;
+    console.log("The password is ", password);
+    const file = await File.findOne({ filename: fileName });
+    if (!file) {
+      res.json({ result: false });
+    }
+    const realPassword = file.password;
+    if (realPassword === password) {
+      res.json({ result: true });
+    } else {
+      res.json({ result: false });
+    }
+  } catch (err) {
+    res.json({ result: false });
   }
 });
 module.exports = router;

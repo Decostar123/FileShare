@@ -143,6 +143,7 @@ const uploaadFiles = () => {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       // console.log(xhr.readyState);
       //  showLink is called when the file is completely loaded
+      progressContainer.style.display = "none";
 
       console.log("uploaded", xhr.response);
       showLink(xhr.response);

@@ -16,6 +16,7 @@ async function fetchData() {
         // it will remove from uploads folder
 
         await file.remove();
+        console.log("deleted file successfully ");
       } catch (err) {
         console.log("Error while deleting file", err);
       }

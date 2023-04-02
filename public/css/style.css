@@ -54,3 +54,23 @@ section.download {
   .send-btn-container a:hover {
       background: var(--dark-blue);
   }
+
+  #fileName{
+    display : none ; 
+  }
+
+  .email-container{
+    margin: 15px auto;
+  }
+  #downloadLink{
+    display : none ; 
+  }
+  #wrongPassword{
+    display : none ;
+  }
+
+  button:active {
+    /* background-color: #3e8e41;
+    box-shadow: 0 5px #666; */
+    transform: translateY(4px);
+  }

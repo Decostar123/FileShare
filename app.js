@@ -2,9 +2,11 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
 const file = require("./models/file");
+const fs = require("fs");
 // file.createIndexes({ createdAt: 1 }, { expireAfterSeconds: 86400 });
 // file.dropIndexes({ createdAt: 1 });
 // file.collection.dropIndexes();
+
 // console.log(file.getIndexes());
 // file
 //   .deleteMany({})
@@ -40,7 +42,49 @@ const connectDB = require("./config/db");
 const corsOptions = {
   origin: process.env.ALLOWED_CLIENTS.split(","),
 };
-connectDB();
+// connectDB();
+
+// file
+//   .deleteMany({})
+//   .then(() => console.log("all deleted "))
+//   .catch((err) => console.log("err"));
+
+// const connectDB = require("./config/db");
+// connectDB();
+async function fetchData() {
+  //  24 hrs old file and delete it
+  await connectDB();
+  // const ans1 = await file.collection.dropIndexes();
+  // console.log("ans1", ans1);
+  // const ans2 = await file.collection.getIndexes();
+  // console.log("ans2", ans2);
+  const pastDate = new Date(Date.now() - 1000 * 60 * 60 * 24);
+  //    the inner one is i millis
+  console.log(pastDate);
+  const files = await file.find({ createdAt: { $lt: pastDate } });
+  console.log(files);
+  if (files.length > 0) {
+    console.log(files);
+    for (const entry of files) {
+      try {
+        await fs.unlinkSync(`uploads/enc${entry.filename}`);
+        // it will remove from uploads folder
+
+        // await entry.remove();
+        await file.deleteOne({ uuid: entry.uuid });
+        console.log("deleted file successfully ");
+      } catch (err) {
+        console.log("Error while deleting file", err);
+      }
+    }
+  }
+  console.log("job done ");
+}
+
+fetchData();
+// .then(() => {
+//   // process.exit();
+// });
 
 // app.post("/login", (res, res) => {
 //   console.log("hi");
