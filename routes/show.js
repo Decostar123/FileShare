@@ -16,7 +16,7 @@ router.get("/:uuid", async (req, res) => {
       // const uniquename = file.uniquename;
       // const extension = file.filename.split(".")[1];
       const file_path = `uploads/enc${name}`;
-      fs.unlinkSync(file_path);
+      // fs.unlinkSync(file_path);
       console.log("hi the path is ");
       return res.render("download", { error: "Link has expired ---- " });
     } else {
@@ -32,7 +32,7 @@ router.get("/:uuid", async (req, res) => {
   } catch (err) {
     const file_path = `uploads/enc${name}`;
     console.log("file_path", file_path);
-    fs.unlinkSync(file_path);
+    // fs.unlinkSync(file_path);
     return res.render("download", { error: "Something went wrong" });
   }
 });
