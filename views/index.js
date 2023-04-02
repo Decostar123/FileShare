@@ -75,7 +75,7 @@ dropZone.addEventListener("dragover", (event) => {
     dropZone.classList.add("dragged");
   }
 });
-const host = "http://localhost:3000/";
+const host = "https://easyshare-vwgs.onrender.com/";
 
 // const uploadURL = `${process.env.APP_BASE_URL}api/files`;
 // const emailURL = `${process.env.APP_BASE_URL}api/files/send`;
@@ -110,7 +110,7 @@ browseBtn.addEventListener("click", (event) => {
   fileInput.click();
 });
 
-const uploaadFiles = () => {
+const uploaadFiles = async () => {
   // it is simply I am sending data via post method
 
   console.log("--------||||||", fileInput);
@@ -134,7 +134,7 @@ const uploaadFiles = () => {
   console.log("ffff", file);
   const formData = new FormData();
   // it makes a form object and I will upload via post method
-  formData.append("myFile", file);
+  await formData.append("myFile", file);
   console.log("FD", formData);
   const xhr = new XMLHttpRequest();
   xhr.onreadystatechange = () => {
