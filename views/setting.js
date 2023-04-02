@@ -3,7 +3,8 @@ const wrongPassword = document.getElementById("wrongPassword");
 const passwordVerification = document.getElementById("passwordVerification");
 // downloadLink.style.display = "none";
 // wrongPassword.style.display = "none";
-const host = "http://localhost:3000/";
+// const host = "http://localhost:3000/";
+const host = "https://easyshare-vwgs.onrender.com/";
 
 // const uploadURL = `${process.env.APP_BASE_URL}api/files`;
 // const emailURL = `${process.env.APP_BASE_URL}api/files/send`;
