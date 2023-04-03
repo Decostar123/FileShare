@@ -32,10 +32,12 @@ pswdInput.style.display = "none";
 
 checkbox.onchange = () => {
   if (checkbox.checked) {
+    document.querySelector("body").style.marginTop = "5rem";
     pswdInput.style.display = "flex";
     console.log(" got checked ");
     pswd.style.display = "block";
   } else {
+    document.querySelector("body").style.marginTop = "0rem";
     pswdInput.style.display = "none";
     console.log(" not checked ");
     pswd.style.display = "none";
@@ -76,6 +78,7 @@ dropZone.addEventListener("dragover", (event) => {
   }
 });
 const host = "https://easyshare-vwgs.onrender.com/";
+// const host = "http://localhost:3000/";
 
 // const uploadURL = `${process.env.APP_BASE_URL}api/files`;
 // const emailURL = `${process.env.APP_BASE_URL}api/files/send`;
@@ -259,12 +262,23 @@ emailForm.addEventListener("submit", (e) => {
 });
 let toastTimer;
 
+// const showToast = (msg) => {
+//   toast.innerText = msg;
+//   toast.style.transform = "translateY(0)";
+//   // clearTimeout(toastTimer);
+
+//   toastTimer = setTimeout(() => {
+//     toast.style.transform = "translateY(60px)";
+//   }, 2000);
+// };
+
 const showToast = (msg) => {
   toast.innerText = msg;
-  toast.style.transform = "translateY(0)";
+  // toast.style.transform = "translateY(0)";
+  toast.style.opacity = "1";
   // clearTimeout(toastTimer);
 
   toastTimer = setTimeout(() => {
-    toast.style.transform = "translateY(60px)";
+    toast.style.opacity = "0";
   }, 2000);
 };

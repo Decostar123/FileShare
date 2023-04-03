@@ -12,7 +12,7 @@ body, html{
     padding : 0; 
     margin : 0 ; 
     box-sizing: border-box;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 body , .drop-zone , .upload-container{
     display : flex ; 
@@ -235,14 +235,15 @@ p{
     position : absolute ; 
     bottom : 10px ; 
     /* transform : translateX(-50%) ; */
-    transform: translateY(60px);
+    /* transform: translateY(60px); */
     padding : 10px 20px ; 
     border-radius: 5px ;
     background: #03a9f4;
     color : #fff; 
     box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1) , 0px 4px 6px -2px rgba(0,0,0,0.05) ; 
     font-size:18px ; 
-    transition : transform ease-in-out 0.2s;
+    transition : all ease-in-out 0.6s;
+    opacity : 0 ; 
 }
 
 .upload{
